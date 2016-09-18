@@ -258,6 +258,7 @@ public final class FiterableTable extends javax.swing.JPanel
     {
         if(this.model == null) return;
         this.model.setFilter(text);
+        
     }
 
     public void clear()

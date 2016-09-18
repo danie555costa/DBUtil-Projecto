@@ -341,6 +341,7 @@ public final class FilterableTableModel extends AbstractTableModel implements Ru
         {
             this.filterList.addAll(this.listSourceData);
             super.fireTableRowsInserted(0, this.filterList.size()-1);
+             System.out.println(" Total rows found "+this.filterList.size());
         }
         else
         {
@@ -356,21 +357,26 @@ public final class FilterableTableModel extends AbstractTableModel implements Ru
     @Override
     public void run() {
         String value = this.filterValue;
-        Object compareValue;
-        for(ItemTableModel m : listSourceData)
+        for(ItemTableModel item : listSourceData)
         {
-            for(int iCollumn =0; iCollumn<colunsShow.length; iCollumn ++)
-            {
-                compareValue = m.values()[iCollumn];
-                if(compareValue.toString().contains(value.toUpperCase()))
-                {
-                    this.filterList.add(m);
-                    super.fireTableRowsInserted(this.filterList.size()-1, this.filterList.size()-1);
-                    break;
-                }
+            if(itemContais(item, value)){
+                this.filterList.add(item);
+                super.fireTableRowsInserted(this.filterList.size()-1, this.filterList.size()-1);
             }
         }
         this.filterBackground = null;
+         System.out.println(" Total rows found "+this.filterList.size());
+    }
+
+    private boolean itemContais(ItemTableModel item, String value) {
+        Object compareValue;
+        for(int iCollumn =0; iCollumn<colunsShow.length; iCollumn ++)
+        {
+            compareValue = item.values()[iCollumn];
+            if(compareValue.toString().contains(value.toUpperCase()))
+                return true;
+        }
+        return false;
     }
     
     
@@ -378,6 +384,7 @@ public final class FilterableTableModel extends AbstractTableModel implements Ru
     {
         this.filterValue = filterValue;
         this.filter();
+       
     }
     
     public void clear ()
